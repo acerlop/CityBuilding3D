@@ -1,0 +1,31 @@
+public class DesastresAleatorios : MonoBehaviour
+{
+    public Desastre[] desastres;
+
+    [System.Serializable]
+    public class Desastre
+    {
+        public string nombre;
+        public float probabilidad;
+    }
+}
+void Update()
+{
+    float random = Random.Range(0f, 1f);
+    float acumulado = 0f;
+    for (int i = 0; i < desastres.Length; i++) {
+        acumulado += desastres[i].probabilidad;
+        if (random < acumulado) {
+            // Generar evento de desastre
+            GenerarEvento(desastres[i]);
+            break;
+        }
+    }
+}
+void GenerarEvento(Desastre desastre)
+{
+    // Mostrar alerta al jugador
+    Debug.Log("¡Alerta! " + desastre.nombre + " está ocurriendo!");
+    // Reproducir sonido de alerta
+    // Activar animación de desastre
+}

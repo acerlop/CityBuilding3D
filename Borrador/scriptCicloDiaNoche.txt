@@ -1,0 +1,39 @@
+using UnityEngine;
+
+public class CicloDiaNoche : MonoBehaviour
+{
+    public float duracionCiclo = 1440f; // Duración del ciclo en segundos
+    public Color colorDia = Color.white;
+    public Color colorNoche = Color.black;
+    public float IntensidadDia = 1f;
+    public float IntensidadNoche = 0.1f;
+    private float tiempoInicio;
+    private Light luzDireccional;
+    private bool esDia = true;
+
+    void Start()
+    {
+        tiempoInicio = Time.time;
+        luzDireccional = GetComponent<Light>();
+    }
+
+    void Update()
+    {
+        float tiempoTranscurrido = Time.time - tiempoInicio;
+        float fraccionCiclo = tiempoTranscurrido / duracionCiclo;
+        float angulo = Mathf.Lerp(-50f, 130f, fraccionCiclo);
+        transform.localRotation = Quaternion.Euler(angulo, 170f, 0f);
+        luzDireccional.intensity = Mathf.Lerp(IntensidadNoche, IntensidadDia, fraccionCiclo);
+	luzDireccional.color = Color.Lerp(colorNoche, colorDia, fraccionCiclo);
+    if (fraccionCiclo >= 0.5f && esDia) {
+        esDia = false;
+        // Aquí puedes cambiar la iluminación de tu escena para simular la noche
+    }
+    else if (fraccionCiclo < 0.5f && !esDia) {
+        esDia = true;
+        // Aquí puedes cambiar la iluminación de tu escena para simular el día
+    }
+}
+
+
+En este ejemplo, la función "Update" se ejecuta cada frame y se utiliza para actualizar la posición y la dirección de la luz direccional. Se utiliza el tiempo transcurrido desde que se inició el juego para calcular en qué punto del ciclo día-noche se encuentra y se utiliza la función "Mathf.Lerp" para cambiar gradualmente la luz entre el color del día y el color de la noche y su intensidad. Además se utiliza una variable booleana para controlar si es día o noche y se cambia la iluminación de la escena. Es importante recordar que esta es solo una idea de como podría lucir el script y es posible que debas ajustarlo para cumplir con las necesidades específicas de tu proyecto.
